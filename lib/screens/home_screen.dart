@@ -12,13 +12,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scanListProvider = Provider.of<ScanListProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Text('Historial'),
         actions: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () => scanListProvider.deleteAll(),
             icon: Icon(Icons.delete_forever)
           )
         ],
@@ -37,14 +39,17 @@ class HomaPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final scanListProvider = Provider.of<ScanListProvider>(context, listen: false);
     final uiProvider = Provider.of<UIProvider>(context);
     final currentIndex = uiProvider.selectedMenuOpt;
 
     switch (currentIndex) {
       case 0:
+        scanListProvider.scansByType('geo');
         return MapHistoryScreen();
 
       case 1:
+        scanListProvider.scansByType('http');
         return const DirectionsScreen();
 
       default:
